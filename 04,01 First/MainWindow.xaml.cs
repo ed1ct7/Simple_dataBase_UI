@@ -1,4 +1,6 @@
-﻿using System.Data.SQLite;
+﻿using System.Data;
+using System.Data.SQLite;
+using System.IO;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
@@ -32,28 +34,81 @@ namespace _04_01_First
 
         private void CreateButton_Click(object sender, RoutedEventArgs e)
         {
-            if (!System.IO.File.Exists(dbFileName))
+            if (!File.Exists(dbFileName))
                 SQLiteConnection.CreateFile(dbFileName);
             try
             {
                 m_dbConn = new SQLiteConnection("Data Source=" + dbFileName + ";Vresion=3");
                 m_dbConn.Open();
                 m_sqlCmd.Connection = m_dbConn;
+
+                m_sqlCmd.CommandText = "CREATE TABLE IF NOT EXISTS Catalog (id INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                    "author TEXT, book TEXT, count_page int check(count_page>10))";
+                m_sqlCmd.ExecuteNonQuery();
+
+                TB_Status.Text = "Connected";
             }
             catch (SQLiteException ex)
-            { 
-            
+            {
+                TB_Status.Text = "Disconnected";
+                MessageBox.Show("Error: " + ex.Message);
             }
         }
 
         private void ConnectButton_Click(object sender, RoutedEventArgs e)
         {
-
+            if (!File.Exists(dbFileName))
+            {
+                MessageBox.Show("Please, create DB and blank table (Push\"Create\" button)");
+            }
+            try
+            {
+                m_dbConn = new SQLiteConnection("Data Source=" + dbFileName + ";Version=3");
+                m_dbConn.Open();
+                m_sqlCmd.Connection= m_dbConn;
+                TB_Status.Text = "Connected";
+            }
+            catch (SQLiteException ex){
+                TB_Status.Text = "Disconnected";
+                MessageBox.Show("Error: " + ex.Message);
+            }
+        }
+        private void AddButton_Click(Object sender, RoutedEventArgs e)
+        {
+            if(m_dbConn.State != System.Data.ConnectionState.Open)
+            {
+                MessageBox.Show("Open connection");
+                return;
+            }
+            try
+            {
+                m_sqlCmd.CommandText = "INSERT INTO Catalog('author', 'book', 'count_page')values('"
+                    +TB_Author.Text + "','" + TB_Book.Text + "','" + Convert.ToInt32(TB_CountPage.Text) + "');"
+                    ;
+                m_sqlCmd.ExecuteNonQuery();
+            }
+            catch (SQLiteException ex)
+            {
+                MessageBox.Show("Error: " + ex.Message);
+            }
         }
 
         private void ReadAllButton_Click(object sender, RoutedEventArgs e)
         {
-
+            try
+            {
+                DataSet dataSet = new DataSet();
+                String sqlQuery;
+                sqlQuery = "SELECT * FROM Catalog ";
+                SQLiteDataAdapter adapter = new SQLiteDataAdapter(sqlQuery, m_dbConn);
+                adapter.Fill(dataSet);
+                dbView.ItemsSource = dataSet.Tables[0].DefaultView;
+            }
+            catch (SQLiteException ex)
+            {
+                MessageBox.Show("Error: " + ex.Message);
+            }
         }
+
     }
 }
