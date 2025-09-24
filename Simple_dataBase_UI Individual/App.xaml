@@ -4,6 +4,11 @@
              xmlns:local="clr-namespace:Simple_dataBase_UI_Individual"
              StartupUri="Views/MainWindow.xaml">
     <Application.Resources>
-         
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Styles/TextBlock.xaml"/>
+                <ResourceDictionary Source="Styles/TextBox.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
     </Application.Resources>
 </Application>

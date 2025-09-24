@@ -4,10 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
-using Simple_dataBase_UI_Individual.Commands;
 //using Simple_dataBase_UI_Individual.Models;
 
-namespace Simple_dataBase_UI_Individual.Commands
+namespace Simple_dataBase_UI_Individual.ViewModels.Commands
 {
     public class RelayCommand : ICommand
     {

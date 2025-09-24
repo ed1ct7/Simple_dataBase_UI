@@ -1,4 +1,4 @@
-﻿using Simple_dataBase_UI_Individual.Commands;
+﻿using Simple_dataBase_UI_Individual.ViewModels.Commands;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
