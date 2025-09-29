@@ -6,7 +6,16 @@ using System.Threading.Tasks;
 
 namespace Simple_dataBase_UI_Individual.Models
 {
-    internal class Сustomer
+//  Заказчики(
+//      Код заказчика,
+//      ФИО,
+//      Адрес,
+//      Телефон).
+    public class Сustomer
     {
+        public int Id { get; set; }
+        public string FullName { get; set; }
+        public string Address { get; set; }
+        public string Phone { get; set; }
     }
 }

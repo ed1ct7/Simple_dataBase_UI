@@ -28,7 +28,15 @@ namespace Simple_dataBase_UI_Individual.Data
         }
 
 
-        private string dbFilePath;
+        private string _dbFilePath;
+        public string dbFilePath
+        {
+            get { return _dbFilePath; }
+            set { _dbFilePath = value; }
+        }
+
+
+
         private SQLiteConnection m_dbConn;
         private SQLiteCommand m_sqlCmd;
         DatabaseManager(string dbFilePath)
