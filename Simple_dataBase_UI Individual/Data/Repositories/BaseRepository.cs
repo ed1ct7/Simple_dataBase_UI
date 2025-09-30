@@ -10,10 +10,11 @@ namespace Simple_dataBase_UI_Individual.Data.Repositories
     public abstract class BaseRepository<T> : IBaseRepository<T> where T : class
     {
         protected readonly string dbFilePath;
-        protected abstract string tableName { get; }
+        protected readonly string tableName;
 
         protected BaseRepository(string dbFilePath) { 
             this.dbFilePath = dbFilePath;
+            this.tableName = typeof(T).Name;
         }
         public virtual void Add(T entity)
         {

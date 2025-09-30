@@ -5,29 +5,25 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Simple_dataBase_UI_Individual.Data.Interfaces;
+using System.ComponentModel;
 
-//    Сотрудники(
-//          Код сотрудника,
-//          ФИО,
-//          Возраст,
-//          Пол,
-//          Адрес,
-//          Телефон,
-//          Паспортные данные,
-//          Код должности)
+//  Виды комплектующих(
+//          Код вида,
+//          Наименование,
+//          Описание)
 
 namespace Simple_dataBase_UI_Individual.Data.Repositories
 {
-    public class EmployeeRepository : BaseRepository<Employee>
+    public class ComponentTypeRepository : BaseRepository<Component>
     {
-        public EmployeeRepository(string dbFilePath) : base(dbFilePath)
+        public ComponentTypeRepository(string dbFilePath) : base(dbFilePath)
         {
 
         }
 
-        public void Add(Employee entity)
+        public void Add(ComponentType entity)
         {
-            throw new NotImplementedException();
+            
         }
 
         public void Delete(int id)
@@ -35,12 +31,12 @@ namespace Simple_dataBase_UI_Individual.Data.Repositories
             throw new NotImplementedException();
         }
 
-        public IEnumerable<Employee> GetAll()
+        public IEnumerable<ComponentType> GetAll()
         {
             throw new NotImplementedException();
         }
 
-        public Employee GetById(int id)
+        public ComponentType GetById(int id)
         {
             throw new NotImplementedException();
         }
@@ -50,7 +46,7 @@ namespace Simple_dataBase_UI_Individual.Data.Repositories
             throw new NotImplementedException();
         }
 
-        public void Update(Employee entity)
+        public void Update(ComponentType entity)
         {
             throw new NotImplementedException();
         }

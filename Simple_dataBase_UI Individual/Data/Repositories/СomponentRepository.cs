@@ -6,21 +6,23 @@ using System.Text;
 using System.Threading.Tasks;
 using Simple_dataBase_UI_Individual.Data.Interfaces;
 
-//    Сотрудники(
-//          Код сотрудника,
-//          ФИО,
-//          Возраст,
-//          Пол,
-//          Адрес,
-//          Телефон,
-//          Паспортные данные,
-//          Код должности)
+//  Комплектующие(
+//      Код комплектующего,
+//      Код вида,
+//      Марка,
+//      Фирма производитель,
+//      Страна производитель,
+//      Дата выпуска,
+//      Характеристики,
+//      Срок гарантия,
+//      Описание,
+//      Цена)
 
 namespace Simple_dataBase_UI_Individual.Data.Repositories
 {
-    public class EmployeeRepository : BaseRepository<Employee>
+    public class СomponentRepository : BaseRepository<Employee>
     {
-        public EmployeeRepository(string dbFilePath) : base(dbFilePath)
+        public СomponentRepository(string dbFilePath) : base(dbFilePath)
         {
 
         }
