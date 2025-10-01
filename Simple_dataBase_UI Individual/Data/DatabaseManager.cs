@@ -11,80 +11,57 @@ using System.Windows;
 
 namespace Simple_dataBase_UI_Individual.Data
 {
+    public enum State
+    {
+        Disconnected,
+        Connected
+    }
     class DatabaseManager
     {
-        private bool _dbStatus;
-        public bool dbStatus
+        private static List<string> _tables;
+        public static List<string> Tables
         {
-            get { return _dbStatus; }
-            set { _dbStatus = value; }
+            get { return _tables; }
+            set { _tables = value; }
         }
 
-        private Enum _dbState;
-        public Enum dbState
+
+        private static Enum _dbState;
+        public static Enum dbState
         {
             get { return _dbState; }
             set { _dbState = value; }
         }
 
+        private readonly string dbFilePath;
 
-        private string _dbFilePath;
-        public string dbFilePath
+        private static SQLiteConnection _dbConn;
+        public static SQLiteConnection m_dbConn
         {
-            get { return _dbFilePath; }
-            set { _dbFilePath = value; }
+            get { return _dbConn; }
+            set { _dbConn = value; }
         }
 
-
-
-        private SQLiteConnection m_dbConn;
-        private SQLiteCommand m_sqlCmd;
-        DatabaseManager(string dbFilePath)
+        private static SQLiteCommand _m_sqlCmd;
+        public static SQLiteCommand m_sqlCmd
         {
-
-            m_dbConn = new SQLiteConnection();
+            get { return _m_sqlCmd; }
+            set { _m_sqlCmd = value; }
+        }
+        public DatabaseManager(string dbFilePath)
+        {
+            m_dbConn = new SQLiteConnection("Data Source=" + dbFilePath + ";Version=3");
+            m_dbConn.Open();
             m_sqlCmd = new SQLiteCommand("PRAGMA foreign_keys = ON");
+            m_sqlCmd.Connection = m_dbConn;
             this.dbFilePath = dbFilePath;
-        }
-        /*
-        Задание №19: БД Компьютерной фирмы.
-        Таблицы: 
-        1) Сотрудники(Код сотрудника, ФИО, Возраст, Пол, Адрес, Телефон,
-        Паспортные данные, Код должности).
-
-        2) Должности(Код должности, Наименование должности, Оклад, Обязанности,
-        Требования)
-
-        3) Виды комплектующих(Код вида, Наименование, Описание)
-
-        4) Комплектующие(Код комплектующего, Код вида, Марка, Фирма
-        производитель, Страна производитель, Дата выпуска, Характеристики, Срок
-        гарантия, Описание, Цена)
-
-        5) Заказчики(Код заказчика, ФИО, Адрес, Телефон).
-
-        6) Услуги(Код услуги, Наименование, Описание, Стоимость)
-
-        7) Заказы(Дата заказа, Дата исполнения, Код заказчика, Код комплектующего 1,
-        Код комплектующего 2, Код комплектующего 3, Доля предоплаты, Отметка
-        об оплате, Отметка об исполнении, Общая стоимость, Срок общей гарантии,
-        Код услуги 1, Код услуги 2, Код услуги 3, Код сотрудника).
-
-
-        "CREATE TABLE IF NOT EXISTS Catalog (id INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                    "author TEXT, book TEXT, count_page int check(count_page>10))";
-        */
-        public void CreateTable()
-        {
             if (!File.Exists(dbFilePath))
                 SQLiteConnection.CreateFile(dbFilePath);
-
+        }
+        public void CreateTable()
+        {
             try
             {
-                m_dbConn = new SQLiteConnection("Data Source=" + dbFilePath + ";Version=3");
-                m_dbConn.Open();
-                m_sqlCmd.Connection = m_dbConn;
-
                 string[] createTableCommands = {
                     // Таблица Должности
                     @"CREATE TABLE IF NOT EXISTS positions (
@@ -107,7 +84,7 @@ namespace Simple_dataBase_UI_Individual.Data
                         FOREIGN KEY (position_id) REFERENCES positions(id)
                     )",
                     // Таблица Категории комплектующих
-                    @"CREATE TABLE IF NOT EXISTS component_categories (
+                    @"CREATE TABLE IF NOT EXISTS component_type (
                         id INTEGER PRIMARY KEY AUTOINCREMENT, 
                         name TEXT, 
                         description TEXT
@@ -115,11 +92,11 @@ namespace Simple_dataBase_UI_Individual.Data
                     // Таблица Комплектующие
                     @"CREATE TABLE IF NOT EXISTS components (
                         id INTEGER PRIMARY KEY AUTOINCREMENT, 
-                        category_id INTEGER,
+                        type_id INTEGER,
                         brand TEXT, 
                         manufacturer_company TEXT, 
                         manufacturer_country TEXT, 
-                        production_date TEXT,
+                        release_date TEXT,
                         specifications TEXT, 
                         warranty TEXT, 
                         description TEXT, 
@@ -175,22 +152,18 @@ namespace Simple_dataBase_UI_Individual.Data
                     m_sqlCmd.ExecuteNonQuery();
                 }
 
-                _dbStatus = true;
+                dbState = State.Connected;
                 MessageBox.Show("База данных успешно создана!");
             }
             catch (SQLiteException ex)
             {
-                _dbStatus = false;
+                dbState = State.Disconnected;
                 MessageBox.Show("Error: " + ex.Message);
             }
             finally
             {
                 m_dbConn?.Close();
             }
-        }
-        public void DeleteTable() 
-        { 
-        
         }
         public void ConnectToDB()
         {
@@ -203,31 +176,11 @@ namespace Simple_dataBase_UI_Individual.Data
                 m_dbConn = new SQLiteConnection("Data Source=" + dbFilePath + ";Version=3");
                 m_dbConn.Open();
                 m_sqlCmd.Connection = m_dbConn;
-                _dbStatus = true;
+                dbState = State.Connected;
             }
             catch (SQLiteException ex)
             {
-                _dbStatus = true;
-                MessageBox.Show("Error: " + ex.Message);
-            }
-        }
-
-        private void InsertInto()
-        {
-            if (m_dbConn.State != ConnectionState.Open)
-            {
-                MessageBox.Show("Open connection");
-                return;
-            }
-            try
-            {
-                //m_sqlCmd.CommandText = "INSERT INTO Catalog('author', 'book', 'count_page')values('"
-                //    + TB_Author.Text + "','" + TB_Book.Text + "','" + Convert.ToInt32(TB_CountPage.Text) + "');"
-                //    ;
-                m_sqlCmd.ExecuteNonQuery();
-            }
-            catch (SQLiteException ex)
-            {
+                dbState = State.Disconnected;
                 MessageBox.Show("Error: " + ex.Message);
             }
         }
@@ -246,6 +199,10 @@ namespace Simple_dataBase_UI_Individual.Data
             {
                 MessageBox.Show("Error: " + ex.Message);
             }
+        }
+        public void DeleteTable()
+        {
+
         }
     }
 }

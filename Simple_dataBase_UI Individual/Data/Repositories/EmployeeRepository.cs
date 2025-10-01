@@ -1,10 +1,12 @@
-﻿using Simple_dataBase_UI_Individual.Models;
+﻿using Simple_dataBase_UI_Individual.Data.Interfaces;
+using Simple_dataBase_UI_Individual.Models;
 using System;
 using System.Collections.Generic;
+using System.Data.SQLite;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Simple_dataBase_UI_Individual.Data.Interfaces;
+using System.Windows;
 
 //    Сотрудники(
 //          Код сотрудника,
@@ -27,7 +29,25 @@ namespace Simple_dataBase_UI_Individual.Data.Repositories
 
         public void Add(Employee entity)
         {
-            throw new NotImplementedException();
+            try
+            {
+                DatabaseManager.m_sqlCmd.CommandText = "INSERT INTO employees('id', 'full_name', 'age', 'gender', 'address', 'phone', 'passport_data', 'position_id')" +
+                    "values('"
+                    + entity.Id + "','"
+                    + entity.Full_Name + "','"
+                    + entity.Age + "','"
+                    + entity.Gender + "','"
+                    + entity.Address + "','"
+                    + entity.Phone + "','"
+                    + entity.Passport_Data + "','"
+                    + entity.Position_Id + "');"
+                    ;
+                DatabaseManager.m_sqlCmd.ExecuteNonQuery();
+            }
+            catch (SQLiteException ex)
+            {
+                MessageBox.Show("Error: " + ex.Message);
+            }
         }
 
         public void Delete(int id)

@@ -1,4 +1,5 @@
 ﻿using Simple_dataBase_UI_Individual.Data.Interfaces;
+using Simple_dataBase_UI_Individual.Data;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,11 +10,9 @@ namespace Simple_dataBase_UI_Individual.Data.Repositories
 {
     public abstract class BaseRepository<T> : IBaseRepository<T> where T : class
     {
-        protected readonly string dbFilePath;
         protected readonly string tableName;
 
-        protected BaseRepository(string dbFilePath) { 
-            this.dbFilePath = dbFilePath;
+        protected BaseRepository(string dbFilePath) {
             this.tableName = typeof(T).Name;
         }
         public virtual void Add(T entity)

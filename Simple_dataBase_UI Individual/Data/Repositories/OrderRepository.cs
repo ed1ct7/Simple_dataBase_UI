@@ -1,10 +1,12 @@
-﻿using Simple_dataBase_UI_Individual.Models;
+﻿using Simple_dataBase_UI_Individual.Data.Interfaces;
+using Simple_dataBase_UI_Individual.Models;
 using System;
 using System.Collections.Generic;
+using System.Data.SQLite;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Simple_dataBase_UI_Individual.Data.Interfaces;
+using System.Windows;
 
 //      Заказы(
 //          Дата заказа,
@@ -32,9 +34,38 @@ namespace Simple_dataBase_UI_Individual.Data.Repositories
 
         }
 
-        public void Add(Employee entity)
+        public void Add(Order entity)
         {
-            throw new NotImplementedException();
+            try
+            {
+                DatabaseManager.m_sqlCmd.CommandText = "INSERT INTO orders('id', 'order_date', " +
+                    "'completion_date', 'customer_id', 'component1_id', 'component2_id', " +
+                    "'component3_id', 'prepayment', 'is_paid', 'is_completed', 'total_amount', " +
+                    "'total_warranty', 'service1_id', 'service2_id', 'service3_id', 'employee_id')" +
+                    "values('"
+                    + entity.Id + "','"
+                    + entity.Order_Date + "','"
+                    + entity.Completion_Date + "','"
+                    + entity.Customer_Id + "','"
+                    + entity.Component1_Id + "','"
+                    + entity.Component2_Id + "','"
+                    + entity.Component3_Id + "','"
+                    + entity.Prepayment + "','"
+                    + entity.Is_Paid + "','"
+                    + entity.Is_Completed + "','"
+                    + entity.Total_Amount + "','"
+                    + entity.Total_Warranty + "','"
+                    + entity.Service1_Id + "','"
+                    + entity.Service2_Id + "','"
+                    + entity.Service3_Id + "','"
+                    + entity.Employee_Id + "');"
+                    ;
+                DatabaseManager.m_sqlCmd.ExecuteNonQuery();
+            }
+            catch (SQLiteException ex)
+            {
+                MessageBox.Show("Error: " + ex.Message);
+            }
         }
 
         public void Delete(int id)

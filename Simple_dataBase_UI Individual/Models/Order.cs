@@ -25,13 +25,22 @@ namespace Simple_dataBase_UI_Individual.Models
 
     public class Order
     {
-        public string Order_Date {  get; set; }
-        public string Order_Execution {  get; set; }
-        public int Customer_ID { get; set; }
-        public int Component1_ID {  get; set; }
-        public int Component2_ID { get; set; }
-        public int Component3_ID { get; set; }
-
+        public int Id { get; set; }
+        public string Order_Date { get; set; }
+        public string Completion_Date { get; set; }
+        public int Customer_Id { get; set; }
+        public int Component1_Id { get; set; }
+        public int Component2_Id { get; set; }
+        public int Component3_Id { get; set; }
+        public decimal Prepayment { get; set; }
+        public bool Is_Paid { get; set; }
+        public bool Is_Completed { get; set; }
+        public decimal Total_Amount { get; set; }
+        public string Total_Warranty { get; set; }
+        public int Service1_Id { get; set; }
+        public int Service2_Id { get; set; }
+        public int Service3_Id { get; set; }
+        public int Employee_Id { get; set; }
 
     }
 }

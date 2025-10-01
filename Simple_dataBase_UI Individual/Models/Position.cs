@@ -17,7 +17,7 @@ namespace Simple_dataBase_UI_Individual.Models
         public int Id { get; set; }
         public string Name { get; set; }
         public decimal Salary { get; set; }
-        public string Responsibilities { get; set; }
+        public string Duties { get; set; }
         public string Requirements { get; set; }
     }
 }

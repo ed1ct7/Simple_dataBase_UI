@@ -1,10 +1,12 @@
-﻿using Simple_dataBase_UI_Individual.Models;
+﻿using Simple_dataBase_UI_Individual.Data.Interfaces;
+using Simple_dataBase_UI_Individual.Models;
 using System;
 using System.Collections.Generic;
+using System.Data.SQLite;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Simple_dataBase_UI_Individual.Data.Interfaces;
+using System.Windows;
 
 //  Заказчики(
 //      Код заказчика,
@@ -14,18 +16,30 @@ using Simple_dataBase_UI_Individual.Data.Interfaces;
 
 namespace Simple_dataBase_UI_Individual.Data.Repositories
 {
-    public class СustomerRepository : BaseRepository<Employee>
+    public class СustomerRepository : BaseRepository<Сustomer>
     {
         public СustomerRepository(string dbFilePath) : base(dbFilePath)
         {
 
         }
-
-        public void Add(Employee entity)
+        public void Add(Сustomer entity)
         {
-            throw new NotImplementedException();
+            try
+            {
+                DatabaseManager.m_sqlCmd.CommandText = "INSERT INTO customers('id', 'full_name', 'address', 'phone')" +
+                    "values('"
+                    + entity.Id + "','"
+                    + entity.Full_Name + "','"
+                    + entity.Address + "','"
+                    + entity.Phone + "');"
+                    ;
+                DatabaseManager.m_sqlCmd.ExecuteNonQuery();
+            }
+            catch (SQLiteException ex)
+            {
+                MessageBox.Show("Error: " + ex.Message);
+            }
         }
-
         public void Delete(int id)
         {
             throw new NotImplementedException();

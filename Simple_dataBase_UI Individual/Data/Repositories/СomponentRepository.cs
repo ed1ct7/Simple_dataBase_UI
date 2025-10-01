@@ -1,10 +1,13 @@
-﻿using Simple_dataBase_UI_Individual.Models;
+﻿using Simple_dataBase_UI_Individual.Data.Interfaces;
+using Simple_dataBase_UI_Individual.Models;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data.SQLite;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Simple_dataBase_UI_Individual.Data.Interfaces;
+using System.Windows;
 
 //  Комплектующие(
 //      Код комплектующего,
@@ -27,9 +30,29 @@ namespace Simple_dataBase_UI_Individual.Data.Repositories
 
         }
 
-        public void Add(Employee entity)
+        public void Add(Models.Component entity)
         {
-            throw new NotImplementedException();
+            try
+            {
+                DatabaseManager.m_sqlCmd.CommandText = "INSERT INTO components('id', 'type_id', 'brand', 'manufacturer_company', 'manufacturer_country', 'release_date', 'specifications', 'warranty', 'description', 'price')" +
+                    "values('"
+                    + entity.Id + "','"
+                    + entity.Type_Id + "','"
+                    + entity.Brand + "','"
+                    + entity.Manufacturer_Company + "','"
+                    + entity.Manufacturer_Country + "','"
+                    + entity.ReleaseDate + "','"
+                    + entity.Specifications + "','"
+                    + entity.Warranty + "','"
+                    + entity.Description + "','"
+                    + entity.Price + "');"
+                    ;
+                DatabaseManager.m_sqlCmd.ExecuteNonQuery();
+            }
+            catch (SQLiteException ex)
+            {
+                MessageBox.Show("Error: " + ex.Message);
+            }
         }
 
         public void Delete(int id)
