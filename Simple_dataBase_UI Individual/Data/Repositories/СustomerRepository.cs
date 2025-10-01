@@ -45,11 +45,6 @@ namespace Simple_dataBase_UI_Individual.Data.Repositories
             throw new NotImplementedException();
         }
 
-        public IEnumerable<Employee> GetAll()
-        {
-            throw new NotImplementedException();
-        }
-
         public Employee GetById(int id)
         {
             throw new NotImplementedException();

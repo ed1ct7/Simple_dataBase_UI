@@ -19,10 +19,7 @@ namespace Simple_dataBase_UI_Individual.Data.Repositories
 {
     public class ComponentTypeRepository : BaseRepository<ComponentType>
     {
-        public ComponentTypeRepository(string dbFilePath) : base(dbFilePath)
-        {
-            
-        }
+        public ComponentTypeRepository(string dbFilePath) : base(dbFilePath) { }
 
         public void Add(ComponentType entity)
         {
@@ -43,11 +40,6 @@ namespace Simple_dataBase_UI_Individual.Data.Repositories
         }
 
         public void Delete(int id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public IEnumerable<ComponentType> GetAll()
         {
             throw new NotImplementedException();
         }

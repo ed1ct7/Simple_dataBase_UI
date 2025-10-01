@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Data;
 using System.Data.SQLite;
 using System.IO;
@@ -18,13 +19,35 @@ namespace Simple_dataBase_UI_Individual.Data
     }
     class DatabaseManager
     {
+        private static DatabaseManager instance;
+        private DatabaseManager(string dbFilePath)
+        {
+            m_dbConn = new SQLiteConnection("Data Source=" + dbFilePath + ";Version=3");
+            m_dbConn.Open();
+            m_sqlCmd = new SQLiteCommand("PRAGMA foreign_keys = ON");
+            m_sqlCmd.Connection = m_dbConn;
+
+            DatabaseManager.TableList = new ObservableCollection<string>();
+
+            this.dbFilePath = dbFilePath;
+            if (!File.Exists(dbFilePath))
+                SQLiteConnection.CreateFile(dbFilePath);
+
+            CreateTable();
+        }
+        public static DatabaseManager getInstance(string dbFilePath = "")
+        {
+            if (instance == null)
+                instance = new DatabaseManager(dbFilePath);
+            return instance;
+        }
+
         private static List<string> _tables;
         public static List<string> Tables
         {
             get { return _tables; }
             set { _tables = value; }
         }
-
 
         private static Enum _dbState;
         public static Enum dbState
@@ -48,23 +71,21 @@ namespace Simple_dataBase_UI_Individual.Data
             get { return _m_sqlCmd; }
             set { _m_sqlCmd = value; }
         }
-        public DatabaseManager(string dbFilePath)
+        private static ObservableCollection<string> _tableList;
+        public static ObservableCollection<string> TableList
         {
-            m_dbConn = new SQLiteConnection("Data Source=" + dbFilePath + ";Version=3");
-            m_dbConn.Open();
-            m_sqlCmd = new SQLiteCommand("PRAGMA foreign_keys = ON");
-            m_sqlCmd.Connection = m_dbConn;
-            this.dbFilePath = dbFilePath;
-            if (!File.Exists(dbFilePath))
-                SQLiteConnection.CreateFile(dbFilePath);
+            get { return _tableList; }
+            set { _tableList = value; }
         }
+
         public void CreateTable()
         {
-            try
             {
-                string[] createTableCommands = {
+                try
+                {
+                    string[] createTableCommands = {
                     // Таблица Должности
-                    @"CREATE TABLE IF NOT EXISTS positions (
+                    @"CREATE TABLE IF NOT EXISTS Position (
                         id INTEGER PRIMARY KEY AUTOINCREMENT, 
                         name TEXT, 
                         salary DECIMAL, 
@@ -72,7 +93,7 @@ namespace Simple_dataBase_UI_Individual.Data
                         requirements TEXT
                     )",
                     // Таблица Сотрудники
-                    @"CREATE TABLE IF NOT EXISTS employees (
+                    @"CREATE TABLE IF NOT EXISTS Employee (
                         id INTEGER PRIMARY KEY AUTOINCREMENT, 
                         full_name TEXT, 
                         age INT, 
@@ -81,16 +102,16 @@ namespace Simple_dataBase_UI_Individual.Data
                         phone TEXT, 
                         passport_data TEXT,
                         position_id INTEGER,
-                        FOREIGN KEY (position_id) REFERENCES positions(id)
+                        FOREIGN KEY (position_id) REFERENCES Position(id)
                     )",
                     // Таблица Категории комплектующих
-                    @"CREATE TABLE IF NOT EXISTS component_type (
+                    @"CREATE TABLE IF NOT EXISTS ComponentType (
                         id INTEGER PRIMARY KEY AUTOINCREMENT, 
                         name TEXT, 
                         description TEXT
                     )",        
                     // Таблица Комплектующие
-                    @"CREATE TABLE IF NOT EXISTS components (
+                    @"CREATE TABLE IF NOT EXISTS Component (
                         id INTEGER PRIMARY KEY AUTOINCREMENT, 
                         type_id INTEGER,
                         brand TEXT, 
@@ -101,24 +122,24 @@ namespace Simple_dataBase_UI_Individual.Data
                         warranty TEXT, 
                         description TEXT, 
                         price DECIMAL,
-                        FOREIGN KEY (category_id) REFERENCES component_categories(id)
+                        FOREIGN KEY (type_id) REFERENCES ComponentType(id)
                     )",
-                    // Таблица Клиенты
-                    @"CREATE TABLE IF NOT EXISTS customers (
+                    // Таблица Клиенты - FIXED: Changed from Сustomer to Customer
+                    @"CREATE TABLE IF NOT EXISTS Customer (
                         id INTEGER PRIMARY KEY AUTOINCREMENT, 
                         full_name TEXT,
                         address TEXT,
                         phone TEXT
                     )",
                     // Таблица Услуги
-                    @"CREATE TABLE IF NOT EXISTS services (
+                    @"CREATE TABLE IF NOT EXISTS Service (
                         id INTEGER PRIMARY KEY AUTOINCREMENT, 
                         name TEXT,
                         description TEXT,
                         price DECIMAL
                     )",
-                    // Таблица Заказы
-                    @"CREATE TABLE IF NOT EXISTS orders (
+                    // Таблица Заказы - FIXED: Order is a reserved keyword, so we need to quote it
+                    @"CREATE TABLE IF NOT EXISTS [Order] (
                         id INTEGER PRIMARY KEY AUTOINCREMENT,
                         order_date TEXT,
                         completion_date TEXT,
@@ -135,34 +156,35 @@ namespace Simple_dataBase_UI_Individual.Data
                         service2_id INTEGER,
                         service3_id INTEGER,
                         employee_id INTEGER,
-                        FOREIGN KEY (customer_id) REFERENCES customers(id),
-                        FOREIGN KEY (component1_id) REFERENCES components(id),
-                        FOREIGN KEY (component2_id) REFERENCES components(id),
-                        FOREIGN KEY (component3_id) REFERENCES components(id),
-                        FOREIGN KEY (service1_id) REFERENCES services(id),
-                        FOREIGN KEY (service2_id) REFERENCES services(id),
-                        FOREIGN KEY (service3_id) REFERENCES services(id),
-                        FOREIGN KEY (employee_id) REFERENCES employees(id)
+                        FOREIGN KEY (customer_id) REFERENCES Customer(id),
+                        FOREIGN KEY (component1_id) REFERENCES Component(id),
+                        FOREIGN KEY (component2_id) REFERENCES Component(id),
+                        FOREIGN KEY (component3_id) REFERENCES Component(id),
+                        FOREIGN KEY (service1_id) REFERENCES Service(id),
+                        FOREIGN KEY (service2_id) REFERENCES Service(id),
+                        FOREIGN KEY (service3_id) REFERENCES Service(id),
+                        FOREIGN KEY (employee_id) REFERENCES Employee(id)
                     )"
                 };
 
-                foreach (string commandText in createTableCommands)
-                {
-                    m_sqlCmd.CommandText = commandText;
-                    m_sqlCmd.ExecuteNonQuery();
-                }
+                    foreach (string commandText in createTableCommands)
+                    {
+                        m_sqlCmd.CommandText = commandText;
+                        m_sqlCmd.ExecuteNonQuery();
+                    }
 
-                dbState = State.Connected;
-                MessageBox.Show("База данных успешно создана!");
-            }
-            catch (SQLiteException ex)
-            {
-                dbState = State.Disconnected;
-                MessageBox.Show("Error: " + ex.Message);
-            }
-            finally
-            {
-                m_dbConn?.Close();
+                    dbState = State.Connected;
+                    MessageBox.Show("База данных успешно создана!");
+                }
+                catch (SQLiteException ex)
+                {
+                    dbState = State.Disconnected;
+                    MessageBox.Show("Error: " + ex.Message);
+                }
+                finally
+                {
+                    m_dbConn?.Close();
+                }
             }
         }
         public void ConnectToDB()

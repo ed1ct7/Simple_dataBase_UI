@@ -5,13 +5,12 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Simple_dataBase_UI_Individual.Views"
         xmlns:vm="clr-namespace:Simple_dataBase_UI_Individual.ViewModels"
+        xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
-
     <Window.DataContext>
         <vm:MainViewModel/>
     </Window.DataContext>
-
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition/>
@@ -21,5 +20,20 @@
             <ColumnDefinition/>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
+
+        <ListBox ItemsSource="{Binding Tables}" 
+                 SelectedItem="{Binding SelectedItem}">
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="SelectionChanged">
+                    <i:InvokeCommandAction Command="{Binding SelectionTableCommand}"></i:InvokeCommandAction>
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
+        </ListBox>
+
+        <DataGrid Grid.Column="1" Grid.RowSpan="2" 
+                  ItemsSource="{Binding DataTableC}"
+                  
+                  ></DataGrid>
+        
     </Grid>
 </Window>

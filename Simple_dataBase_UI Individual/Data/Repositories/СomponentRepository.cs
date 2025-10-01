@@ -23,7 +23,7 @@ using System.Windows;
 
 namespace Simple_dataBase_UI_Individual.Data.Repositories
 {
-    public class СomponentRepository : BaseRepository<Employee>
+    public class СomponentRepository : BaseRepository<Models.Component>
     {
         public СomponentRepository(string dbFilePath) : base(dbFilePath)
         {
@@ -56,11 +56,6 @@ namespace Simple_dataBase_UI_Individual.Data.Repositories
         }
 
         public void Delete(int id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public IEnumerable<Employee> GetAll()
         {
             throw new NotImplementedException();
         }

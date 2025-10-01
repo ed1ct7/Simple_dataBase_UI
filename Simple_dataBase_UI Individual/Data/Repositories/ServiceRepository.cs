@@ -16,7 +16,7 @@ using System.Windows;
 
 namespace Simple_dataBase_UI_Individual.Data.Repositories
 {
-    public class ServiceRepository : BaseRepository<Employee>
+    public class ServiceRepository : BaseRepository<Service>
     {
         public ServiceRepository(string dbFilePath) : base(dbFilePath)
         {
@@ -43,11 +43,6 @@ namespace Simple_dataBase_UI_Individual.Data.Repositories
         }
 
         public void Delete(int id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public IEnumerable<Employee> GetAll()
         {
             throw new NotImplementedException();
         }
