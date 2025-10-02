@@ -22,7 +22,7 @@
         </Grid.ColumnDefinitions>
 
         <ListBox ItemsSource="{Binding Tables}" 
-                 SelectedItem="{Binding SelectedItem}">
+                 SelectedItem="{Binding SelectedTable}">
             <i:Interaction.Triggers>
                 <i:EventTrigger EventName="SelectionChanged">
                     <i:InvokeCommandAction Command="{Binding SelectionTableCommand}"></i:InvokeCommandAction>

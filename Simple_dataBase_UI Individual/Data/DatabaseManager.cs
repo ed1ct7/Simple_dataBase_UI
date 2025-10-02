@@ -22,16 +22,17 @@ namespace Simple_dataBase_UI_Individual.Data
         private static DatabaseManager instance;
         private DatabaseManager(string dbFilePath)
         {
-            m_dbConn = new SQLiteConnection("Data Source=" + dbFilePath + ";Version=3");
-            m_dbConn.Open();
-            m_sqlCmd = new SQLiteCommand("PRAGMA foreign_keys = ON");
-            m_sqlCmd.Connection = m_dbConn;
-
-            DatabaseManager.TableList = new ObservableCollection<string>();
-
-            this.dbFilePath = dbFilePath;
             if (!File.Exists(dbFilePath))
                 SQLiteConnection.CreateFile(dbFilePath);
+
+            m_dbConn = new SQLiteConnection("Data Source=" + dbFilePath + ";Version=3");
+            m_dbConn.Open();
+
+            m_sqlCmd.Connection = m_dbConn;
+            m_sqlCmd = new SQLiteCommand("PRAGMA foreign_keys = ON");
+            m_sqlCmd.ExecuteNonQuery();
+
+            DatabaseManager.TableList = new ObservableCollection<string>();
 
             CreateTable();
         }

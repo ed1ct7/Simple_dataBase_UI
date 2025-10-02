@@ -86,14 +86,22 @@ namespace Simple_dataBase_UI_Individual.ViewModels
         }
         public void RowEditEnding(object parameter)
         {
-            if(parameter is DataGridCellEditEndingEventArgs e)
+            if (parameter is DataGridCellEditEndingEventArgs e)
             {
-                if(e.EditAction == DataGridEditAction.Commit)
+                if (e.EditAction == DataGridEditAction.Commit)
                 {
-                    dynamic repository = _repositories[SelectedTable.ToString()];
-                    var entity = repository.CreateInstance(repository);
+                    var rowData = e.Row.DataContext;
 
-                    //repository.Add( );
+                    // Safe way to access repository
+                    if (_repositories.TryGetValue(SelectedTable.ToString(), out var repository))
+                    {
+                        // Assuming repository is BaseRepository<T>
+                        var addMethod = repository.GetType().GetMethod("Add");
+                        if (addMethod != null)
+                        {
+                            addMethod.Invoke(repository, new[] { rowData });
+                        }
+                    }
                 }
             }
         }
