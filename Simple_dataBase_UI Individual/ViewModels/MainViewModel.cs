@@ -52,7 +52,7 @@ namespace Simple_dataBase_UI_Individual.ViewModels
 
         public MainViewModel()
         {
-            DatabaseManager.getInstance("testdb");
+            DatabaseManager.getInstance("testdb.sqlite");
 
             _repositories = new Dictionary<string, object> {
                 { "ComponentType", new ComponentTypeRepository("testdb")},
@@ -84,6 +84,7 @@ namespace Simple_dataBase_UI_Individual.ViewModels
         {
 
         }
+        /*
         public void RowEditEnding(object parameter)
         {
             if (parameter is DataGridCellEditEndingEventArgs e)
@@ -102,6 +103,30 @@ namespace Simple_dataBase_UI_Individual.ViewModels
                             addMethod.Invoke(repository, new[] { rowData });
                         }
                     }
+                }
+            }
+        }
+        */
+        public void RowEditEnding(object parameter)
+        {
+            if (parameter is DataGridCellEditEndingEventArgs e)
+            {
+                if (e.EditAction == DataGridEditAction.Commit)
+                {
+                    var rowData = e.Row.DataContext;
+
+                    var properties = rowData.GetType().GetProperties();
+
+                    var values = new object[properties.Length];
+                    for (int i = 0; i < properties.Length; i++)
+                    {
+                        values[i] = properties[i].GetValue(rowData);
+                    }
+
+                    dynamic repository = _repositories[SelectedTable.ToString()];
+                    var entity = repository.CreateInstance(repository);
+
+                    repository.Add(values);
                 }
             }
         }

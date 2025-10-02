@@ -9,7 +9,6 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 
-
 namespace Simple_dataBase_UI_Individual.Data
 {
     public enum State
@@ -17,6 +16,7 @@ namespace Simple_dataBase_UI_Individual.Data
         Disconnected,
         Connected
     }
+
     class DatabaseManager
     {
         private static DatabaseManager instance;
@@ -28,14 +28,19 @@ namespace Simple_dataBase_UI_Individual.Data
             m_dbConn = new SQLiteConnection("Data Source=" + dbFilePath + ";Version=3");
             m_dbConn.Open();
 
-            m_sqlCmd.Connection = m_dbConn;
-            m_sqlCmd = new SQLiteCommand("PRAGMA foreign_keys = ON");
+            // Initialize the command and set its connection BEFORE using it
+            m_sqlCmd = new SQLiteCommand();
+            m_sqlCmd.Connection = m_dbConn; // Set connection first!
+
+            // Now execute the foreign keys command
+            m_sqlCmd.CommandText = "PRAGMA foreign_keys = ON";
             m_sqlCmd.ExecuteNonQuery();
 
             DatabaseManager.TableList = new ObservableCollection<string>();
 
             CreateTable();
         }
+
         public static DatabaseManager getInstance(string dbFilePath = "")
         {
             if (instance == null)
@@ -72,6 +77,7 @@ namespace Simple_dataBase_UI_Individual.Data
             get { return _m_sqlCmd; }
             set { _m_sqlCmd = value; }
         }
+
         private static ObservableCollection<string> _tableList;
         public static ObservableCollection<string> TableList
         {
@@ -81,10 +87,9 @@ namespace Simple_dataBase_UI_Individual.Data
 
         public void CreateTable()
         {
+            try
             {
-                try
-                {
-                    string[] createTableCommands = {
+                string[] createTableCommands = {
                     // Таблица Должности
                     @"CREATE TABLE IF NOT EXISTS Position (
                         id INTEGER PRIMARY KEY AUTOINCREMENT, 
@@ -125,7 +130,7 @@ namespace Simple_dataBase_UI_Individual.Data
                         price DECIMAL,
                         FOREIGN KEY (type_id) REFERENCES ComponentType(id)
                     )",
-                    // Таблица Клиенты - FIXED: Changed from Сustomer to Customer
+                    // Таблица Клиенты
                     @"CREATE TABLE IF NOT EXISTS Customer (
                         id INTEGER PRIMARY KEY AUTOINCREMENT, 
                         full_name TEXT,
@@ -139,7 +144,7 @@ namespace Simple_dataBase_UI_Individual.Data
                         description TEXT,
                         price DECIMAL
                     )",
-                    // Таблица Заказы - FIXED: Order is a reserved keyword, so we need to quote it
+                    // Таблица Заказы
                     @"CREATE TABLE IF NOT EXISTS [Order] (
                         id INTEGER PRIMARY KEY AUTOINCREMENT,
                         order_date TEXT,
@@ -168,26 +173,24 @@ namespace Simple_dataBase_UI_Individual.Data
                     )"
                 };
 
-                    foreach (string commandText in createTableCommands)
+                foreach (string commandText in createTableCommands)
+                {
+                    using (var command = new SQLiteCommand(commandText, m_dbConn))
                     {
-                        m_sqlCmd.CommandText = commandText;
-                        m_sqlCmd.ExecuteNonQuery();
+                        command.ExecuteNonQuery();
                     }
+                }
 
-                    dbState = State.Connected;
-                    //MessageBox.Show("База данных успешно создана!");
-                }
-                catch (SQLiteException ex)
-                {
-                    dbState = State.Disconnected;
-                    MessageBox.Show("Error: " + ex.Message);
-                }
-                finally
-                {
-                    m_dbConn?.Close();
-                }
+                dbState = State.Connected;
+                //MessageBox.Show("База данных успешно создана!");
+            }
+            catch (SQLiteException ex)
+            {
+                dbState = State.Disconnected;
+                MessageBox.Show("Error: " + ex.Message);
             }
         }
+
         public void ConnectToDB()
         {
             if (!File.Exists(dbFilePath))
@@ -207,6 +210,7 @@ namespace Simple_dataBase_UI_Individual.Data
                 MessageBox.Show("Error: " + ex.Message);
             }
         }
+
         private void GetTable()
         {
             try
@@ -223,9 +227,18 @@ namespace Simple_dataBase_UI_Individual.Data
                 MessageBox.Show("Error: " + ex.Message);
             }
         }
+
         public void DeleteTable()
         {
+            // Implementation for deleting tables
+        }
 
+        // Add proper disposal
+        public void Dispose()
+        {
+            m_sqlCmd?.Dispose();
+            m_dbConn?.Close();
+            m_dbConn?.Dispose();
         }
     }
 }
