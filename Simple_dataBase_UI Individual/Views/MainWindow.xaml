@@ -31,9 +31,19 @@
         </ListBox>
 
         <DataGrid Grid.Column="1" Grid.RowSpan="2" 
-                  ItemsSource="{Binding DataTableC}"
-                  
-                  ></DataGrid>
+                  ItemsSource="{Binding DataTableC}"      
+                  >
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="CellEditEnding">
+                    <i:InvokeCommandAction Command="{Binding CellEditEndingCommand}"
+                                 PassEventArgsToCommand="True"/>
+                </i:EventTrigger>
+                <i:EventTrigger EventName="RowEditEnding">
+                    <i:InvokeCommandAction Command="{Binding RowEditEndingCommand}"
+                                 PassEventArgsToCommand="True"/>
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
+        </DataGrid>
         
     </Grid>
 </Window>

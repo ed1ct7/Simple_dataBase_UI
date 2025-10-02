@@ -11,17 +11,19 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Controls;
 using System.Windows.Input;
 
 namespace Simple_dataBase_UI_Individual.ViewModels
 {
     class MainViewModel : INotifyPropertyChanged
     {
-        private object _selectedItem;
-        public object SelectedItem
+        private object _selectedTable;
+        public object SelectedTable
         {
-            get { return _selectedItem; }
-            set { _selectedItem = value;
+            get { return _selectedTable; }
+            set {
+                _selectedTable = value;
                 OnPropertyChanged();
             }
         }
@@ -63,28 +65,41 @@ namespace Simple_dataBase_UI_Individual.ViewModels
                 };
 
             SelectionTableCommand = new RelayCommand(SelectionTable);
-            AddItemCommand = new RelayCommand(AddItem);
-            LoadItemsCommand = new RelayCommand(LoadItems);
+            SelectionChangedCommand = new RelayCommand(SelectionChanged);
+            CellEditEndingCommand = new RelayCommand(CellEditEnding);
+            RowEditEndingCommand = new RelayCommand(RowEditEnding);
+
 
             Tables = new ObservableCollection<string>(_repositories.Keys);
         }
         public ICommand SelectionTableCommand { get; }
-        public ICommand AddItemCommand { get; }
-        public ICommand LoadItemsCommand { get; }
         public ICommand SelectionChangedCommand { get; }
+        public ICommand CellEditEndingCommand { get; }
+        public ICommand RowEditEndingCommand { get; }
+        public void CellEditEnding(object parameter)
+        {
 
+        }
+        public void SelectionChanged(object parameter)
+        {
+
+        }
+        public void RowEditEnding(object parameter)
+        {
+            if(parameter is DataGridCellEditEndingEventArgs e)
+            {
+                if(e.EditAction == DataGridEditAction.Commit)
+                {
+                    dynamic repository = _repositories[SelectedTable.ToString()];
+                    
+                    //repository.Add( );
+                }
+            }
+        }
         private void SelectionTable(object parameter)
         {
-            dynamic repository = _repositories[SelectedItem.ToString()];
+            dynamic repository = _repositories[SelectedTable.ToString()];
             DataTableC = repository.GetAll();
-        }
-        private void AddItem(object parametr)
-        {
-
-        }
-        private void LoadItems(object parametr)
-        {
-
         }
 
         public event PropertyChangedEventHandler? PropertyChanged;
