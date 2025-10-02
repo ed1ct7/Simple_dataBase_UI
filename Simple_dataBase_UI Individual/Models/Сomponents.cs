@@ -38,6 +38,23 @@ namespace Simple_dataBase_UI_Individual.Models
             this.Description = Description;
             this.Price = Price;
         }
+        // Constructor that takes a List<object>
+        public Component(List<object> array)
+        {
+            if (array == null || array.Count < 10)
+                throw new ArgumentException("Array must contain at least 10 elements");
+
+            this.Id = Convert.ToInt32(array[0]);
+            this.Type_Id = Convert.ToInt32(array[1]);
+            this.Brand = array[2]?.ToString() ?? string.Empty;
+            this.Manufacturer_Company = array[3]?.ToString() ?? string.Empty;
+            this.Manufacturer_Country = array[4]?.ToString() ?? string.Empty;
+            this.ReleaseDate = array[5]?.ToString() ?? string.Empty;
+            this.Specifications = array[6]?.ToString() ?? string.Empty;
+            this.Warranty = array[7]?.ToString() ?? string.Empty;
+            this.Description = array[8]?.ToString() ?? string.Empty;
+            this.Price = Convert.ToInt32(array[9]);
+        }
         public int Id { get; set; }
         public int Type_Id { get; set; }
         public string Brand { get; set; }

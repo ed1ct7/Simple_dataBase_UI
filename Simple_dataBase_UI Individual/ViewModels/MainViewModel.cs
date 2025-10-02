@@ -84,49 +84,60 @@ namespace Simple_dataBase_UI_Individual.ViewModels
         {
 
         }
-        /*
+
         public void RowEditEnding(object parameter)
         {
-            if (parameter is DataGridCellEditEndingEventArgs e)
+
+            if (parameter is DataGridRowEditEndingEventArgs e)
             {
                 if (e.EditAction == DataGridEditAction.Commit)
                 {
                     var rowData = e.Row.DataContext;
 
-                    // Safe way to access repository
-                    if (_repositories.TryGetValue(SelectedTable.ToString(), out var repository))
+                    // Add null checking
+                    if (rowData == null)
                     {
-                        // Assuming repository is BaseRepository<T>
-                        var addMethod = repository.GetType().GetMethod("Add");
-                        if (addMethod != null)
-                        {
-                            addMethod.Invoke(repository, new[] { rowData });
-                        }
+                        Console.WriteLine("Row data context is null");
+                        return;
                     }
-                }
-            }
-        }
-        */
-        public void RowEditEnding(object parameter)
-        {
-            if (parameter is DataGridCellEditEndingEventArgs e)
-            {
-                if (e.EditAction == DataGridEditAction.Commit)
-                {
-                    var rowData = e.Row.DataContext;
 
                     var properties = rowData.GetType().GetProperties();
 
-                    var values = new object[properties.Length];
-                    for (int i = 0; i < properties.Length; i++)
+                    var values = new List<object>();
+
+                    // Идёт запись не правильных параметров
+                    foreach (var property in properties)
                     {
-                        values[i] = properties[i].GetValue(rowData);
+                        try
+                        {
+                            if (property.GetIndexParameters().Length == 0)
+                            {
+                                var value = property.GetValue(rowData);
+                                values.Add(value);
+                                Console.WriteLine($"Property: {property.Name}, Value: {value}");
+                            }
+                            else
+                            {
+                                Console.WriteLine($"Skipping indexer property: {property.Name}");
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            Console.WriteLine($"Error getting property {property.Name}: {ex.Message}");
+                        }
                     }
+                    try
+                    {
+                        dynamic repository = _repositories[SelectedTable.ToString()];
+                        var entity = repository.CreateInstance(values);
+                        repository.Add(entity);
 
-                    dynamic repository = _repositories[SelectedTable.ToString()];
-                    var entity = repository.CreateInstance(repository);
-
-                    repository.Add(values);
+                        Console.WriteLine("Successfully added entity to repository");
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine($"Error adding entity: {ex.Message}");
+                    }
                 }
             }
         }

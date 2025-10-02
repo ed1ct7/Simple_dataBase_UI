@@ -22,6 +22,16 @@ namespace Simple_dataBase_UI_Individual.Models
             this.Description = Description;
             this.Price = Price;
         }
+        public Service(List<object> array)
+        {
+            if (array == null || array.Count < 4)
+                throw new ArgumentException("Array must contain at least 4 elements");
+
+            this.Id = Convert.ToInt32(array[0]);
+            this.Name = array[1]?.ToString() ?? string.Empty;
+            this.Description = array[2]?.ToString() ?? string.Empty;
+            this.Price = Convert.ToInt32(array[3]);
+        }
         public int Id { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }

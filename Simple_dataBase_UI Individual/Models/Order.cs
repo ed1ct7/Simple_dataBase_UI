@@ -49,6 +49,28 @@ namespace Simple_dataBase_UI_Individual.Models
             this.Service3_Id = Service3_Id;
             this.Employee_Id = Employee_Id;
         }
+        public Order(List<object> array)
+        {
+            if (array == null || array.Count < 16)
+                throw new ArgumentException("Array must contain at least 16 elements");
+
+            this.Id = Convert.ToInt32(array[0]);
+            this.Order_Date = array[1]?.ToString() ?? string.Empty;
+            this.Completion_Date = array[2]?.ToString() ?? string.Empty;
+            this.Customer_Id = Convert.ToInt32(array[3]);
+            this.Component1_Id = Convert.ToInt32(array[4]);
+            this.Component2_Id = Convert.ToInt32(array[5]);
+            this.Component3_Id = Convert.ToInt32(array[6]);
+            this.Prepayment = Convert.ToDecimal(array[7]);
+            this.Is_Paid = Convert.ToBoolean(array[8]);
+            this.Is_Completed = Convert.ToBoolean(array[9]);
+            this.Total_Amount = Convert.ToDecimal(array[10]);
+            this.Total_Warranty = array[11]?.ToString() ?? string.Empty;
+            this.Service1_Id = Convert.ToInt32(array[12]);
+            this.Service2_Id = Convert.ToInt32(array[13]);
+            this.Service3_Id = Convert.ToInt32(array[14]);
+            this.Employee_Id = Convert.ToInt32(array[15]);
+        }
         public int Id { get; set; }
         public string Order_Date { get; set; }
         public string Completion_Date { get; set; }

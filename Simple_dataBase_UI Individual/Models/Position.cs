@@ -26,6 +26,17 @@ namespace Simple_dataBase_UI_Individual.Models
             this.Duties = Duties;
             this.Requirements = Requirements;
         }
+        public Position(List<object> array)
+        {
+            if (array == null || array.Count < 5)
+                throw new ArgumentException("Array must contain at least 5 elements");
+
+            this.Id = Convert.ToInt32(array[0]);
+            this.Name = array[1]?.ToString() ?? string.Empty;
+            this.Salary = Convert.ToDecimal(array[2]);
+            this.Duties = array[3]?.ToString() ?? string.Empty;
+            this.Requirements = array[4]?.ToString() ?? string.Empty;
+        }
         public int Id { get; set; }
         public string Name { get; set; }
         public decimal Salary { get; set; }
