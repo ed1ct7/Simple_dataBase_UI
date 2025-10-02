@@ -13,6 +13,13 @@ namespace Simple_dataBase_UI_Individual.Models
 //      Телефон).
     public class Customer
     {
+        Customer() { }
+        public Customer(int id, string Full_Name, string Address, string Phone) {
+            this.Id = id;
+            this.Full_Name = Full_Name;
+            this.Address = Address;
+            this.Phone = Phone;
+        }
         public int Id { get; set; }
         public string Full_Name { get; set; }
         public string Address { get; set; }

@@ -12,6 +12,13 @@ namespace Simple_dataBase_UI_Individual.Models
     //          Описание)
     public class ComponentType
     {
+        ComponentType() { }
+        public ComponentType(int Id, string Name, string Description) { 
+            this.Id = Id;
+            this.Name = Name;
+            this.Description = Description;
+        }
+
         public int Id { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }

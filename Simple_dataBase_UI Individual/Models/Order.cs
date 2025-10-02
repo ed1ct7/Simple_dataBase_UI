@@ -25,6 +25,30 @@ namespace Simple_dataBase_UI_Individual.Models
 
     public class Order
     {
+        Order() { }
+        public Order(int Id, string Order_Date, string Completion_Date,
+            int Customer_Id, int Component1_Id, int Component2_Id,
+            int Component3_Id, int Prepayment, bool Is_Paid,
+            bool Is_Completed, decimal Total_Amount,string Total_Warranty,
+            int Service1_Id, int Service2_Id, int Service3_Id, int Employee_Id
+            ) {
+            this.Id = Id;
+            this.Order_Date = Order_Date;
+            this.Completion_Date = Completion_Date;
+            this.Customer_Id = Customer_Id;
+            this.Component1_Id = Component1_Id;
+            this.Component2_Id = Component2_Id;
+            this.Component3_Id = Component3_Id;
+            this.Prepayment = Prepayment;
+            this.Is_Paid = Is_Paid;
+            this.Is_Completed = Is_Completed;
+            this.Total_Amount = Total_Amount;
+            this.Total_Warranty = Total_Warranty;
+            this.Service1_Id = Service1_Id;
+            this.Service2_Id = Service2_Id;
+            this.Service3_Id = Service3_Id;
+            this.Employee_Id = Employee_Id;
+        }
         public int Id { get; set; }
         public string Order_Date { get; set; }
         public string Completion_Date { get; set; }

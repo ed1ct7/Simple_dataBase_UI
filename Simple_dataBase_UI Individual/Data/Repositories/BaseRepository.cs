@@ -17,9 +17,9 @@ namespace Simple_dataBase_UI_Individual.Data.Repositories
             this.tableName = typeof(T).Name;
             DatabaseManager.TableList.Add(tableName);
         }
-        public Type GetEntityType()
+        public T CreateInstance()
         {
-            return typeof(T);
+            return Activator.CreateInstance<T>();
         }
         public virtual void Add(T entity)
         {

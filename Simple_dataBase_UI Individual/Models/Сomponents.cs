@@ -20,6 +20,24 @@ namespace Simple_dataBase_UI_Individual.Models
 
     public class Component
     {
+        Component() { }
+        public Component(int Id, int Type_Id,
+            string Brand, string Manufacturer_Company,
+            string Manufacturer_Country, string ReleaseDate,
+            string Specifications, string Warranty,
+            string Description, int Price
+            ) { 
+            this.Id = Id;
+            this.Type_Id = Type_Id;
+            this.Brand = Brand;
+            this.Manufacturer_Company = Manufacturer_Company;
+            this.Manufacturer_Country = Manufacturer_Country;
+            this.ReleaseDate = ReleaseDate;
+            this.Specifications = Specifications;
+            this.Warranty = Warranty;
+            this.Description = Description;
+            this.Price = Price;
+        }
         public int Id { get; set; }
         public int Type_Id { get; set; }
         public string Brand { get; set; }

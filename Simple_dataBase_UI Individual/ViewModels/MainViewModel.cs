@@ -91,7 +91,8 @@ namespace Simple_dataBase_UI_Individual.ViewModels
                 if(e.EditAction == DataGridEditAction.Commit)
                 {
                     dynamic repository = _repositories[SelectedTable.ToString()];
-                    
+                    var entity = repository.CreateInstance(repository);
+
                     //repository.Add( );
                 }
             }

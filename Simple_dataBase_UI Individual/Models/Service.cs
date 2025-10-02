@@ -13,6 +13,15 @@ namespace Simple_dataBase_UI_Individual.Models
     //      Стоимость)
     public class Service
     {
+        Service() { }
+        public Service(int Id, string Name,
+            string Description, int Price
+            ) { 
+            this.Id = Id;
+            this.Name = Name;
+            this.Description = Description;
+            this.Price = Price;
+        }
         public int Id { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
