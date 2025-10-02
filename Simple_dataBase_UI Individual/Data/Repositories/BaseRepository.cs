@@ -13,9 +13,8 @@ namespace Simple_dataBase_UI_Individual.Data.Repositories
     public abstract class BaseRepository<T> : IBaseRepository<T> where T : class
     {
         protected readonly string tableName;
-        protected BaseRepository(string dbFilePath) {
+        protected BaseRepository() {
             this.tableName = typeof(T).Name;
-            DatabaseManager.TableList.Add(tableName);
         }
         public T CreateInstance()
         {

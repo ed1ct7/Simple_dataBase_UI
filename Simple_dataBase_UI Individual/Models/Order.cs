@@ -25,7 +25,7 @@ namespace Simple_dataBase_UI_Individual.Models
 
     public class Order
     {
-        Order() { }
+        public Order() { }
         public Order(int Id, string Order_Date, string Completion_Date,
             int Customer_Id, int Component1_Id, int Component2_Id,
             int Component3_Id, int Prepayment, bool Is_Paid,

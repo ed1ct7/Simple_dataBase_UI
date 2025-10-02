@@ -22,7 +22,7 @@ namespace Simple_dataBase_UI_Individual.Data.Repositories
 {
     public class EmployeeRepository : BaseRepository<Employee>
     {
-        public EmployeeRepository(string dbFilePath) : base(dbFilePath)
+        public EmployeeRepository(string dbFilePath)
         {
 
         }

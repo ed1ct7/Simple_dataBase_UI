@@ -18,7 +18,7 @@ namespace Simple_dataBase_UI_Individual.Data.Repositories
 {
     public class CustomerRepository : BaseRepository<Customer>
     {
-        public CustomerRepository(string dbFilePath) : base(dbFilePath)
+        public CustomerRepository(string dbFilePath)
         {
 
         }

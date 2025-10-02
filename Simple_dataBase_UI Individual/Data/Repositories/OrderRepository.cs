@@ -29,7 +29,7 @@ namespace Simple_dataBase_UI_Individual.Data.Repositories
 {
     public class OrderRepository : BaseRepository<Order>
     {
-        public OrderRepository(string dbFilePath) : base(dbFilePath)
+        public OrderRepository(string dbFilePath)
         {
 
         }

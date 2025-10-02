@@ -14,7 +14,7 @@ namespace Simple_dataBase_UI_Individual.Models
     //      Требования)
     public class Position
     {
-        Position() { }
+        public Position() { }
         public Position(
                 int Id, string Name,
                 decimal Salary, string Duties,

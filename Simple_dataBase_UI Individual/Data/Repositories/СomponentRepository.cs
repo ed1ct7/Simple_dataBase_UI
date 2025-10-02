@@ -25,7 +25,7 @@ namespace Simple_dataBase_UI_Individual.Data.Repositories
 {
     public class СomponentRepository : BaseRepository<Models.Component>
     {
-        public СomponentRepository(string dbFilePath) : base(dbFilePath)
+        public СomponentRepository(string dbFilePath)
         {
 
         }
@@ -34,7 +34,11 @@ namespace Simple_dataBase_UI_Individual.Data.Repositories
         {
             try
             {
-                DatabaseManager.m_sqlCmd.CommandText = "INSERT INTO components('id', 'type_id', 'brand', 'manufacturer_company', 'manufacturer_country', 'release_date', 'specifications', 'warranty', 'description', 'price')" +
+                DatabaseManager.m_sqlCmd.CommandText = "INSERT INTO " +
+                    "components('id', 'type_id', 'brand', " +
+                    "'manufacturer_company', 'manufacturer_country', " +
+                    "'release_date', 'specifications', 'warranty', " +
+                    "'description', 'price')" +
                     "values('"
                     + entity.Id + "','"
                     + entity.Type_Id + "','"

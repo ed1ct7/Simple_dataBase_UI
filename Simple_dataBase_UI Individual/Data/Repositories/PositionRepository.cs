@@ -19,7 +19,7 @@ namespace Simple_dataBase_UI_Individual.Data.Repositories
 {
     public class PositionRepository : BaseRepository<Position>
     {
-        public PositionRepository(string dbFilePath) : base(dbFilePath)
+        public PositionRepository(string dbFilePath)
         {
 
         }

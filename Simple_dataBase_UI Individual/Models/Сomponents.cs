@@ -20,7 +20,7 @@ namespace Simple_dataBase_UI_Individual.Models
 
     public class Component
     {
-        Component() { }
+        public Component() { }
         public Component(int Id, int Type_Id,
             string Brand, string Manufacturer_Company,
             string Manufacturer_Country, string ReleaseDate,

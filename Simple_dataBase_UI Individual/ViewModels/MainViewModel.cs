@@ -87,56 +87,26 @@ namespace Simple_dataBase_UI_Individual.ViewModels
 
         public void RowEditEnding(object parameter)
         {
-
             if (parameter is DataGridRowEditEndingEventArgs e)
             {
                 if (e.EditAction == DataGridEditAction.Commit)
                 {
-                    var rowData = e.Row.DataContext;
-
-                    // Add null checking
-                    if (rowData == null)
+                    if (e.Row.DataContext is DataRowView dataRowView)
                     {
-                        Console.WriteLine("Row data context is null");
-                        return;
-                    }
+                            var dataRow = dataRowView.Row;
+                            var values = dataRow.ItemArray.ToList(); // This gets the actual column values
 
-                    var properties = rowData.GetType().GetProperties();
-
-                    var values = new List<object>();
-
-                    // Идёт запись не правильных параметров
-                    foreach (var property in properties)
-                    {
-                        try
-                        {
-                            if (property.GetIndexParameters().Length == 0)
+                            Console.WriteLine($"Collected {values.Count} values from DataRow:");
+                            for (int i = 0; i < values.Count; i++)
                             {
-                                var value = property.GetValue(rowData);
-                                values.Add(value);
-                                Console.WriteLine($"Property: {property.Name}, Value: {value}");
+                                Console.WriteLine($"  Column {i}: {values[i]}");
                             }
-                            else
-                            {
-                                Console.WriteLine($"Skipping indexer property: {property.Name}");
-                            }
-                        }
-                        catch (Exception ex)
-                        {
-                            Console.WriteLine($"Error getting property {property.Name}: {ex.Message}");
-                        }
-                    }
-                    try
-                    {
-                        dynamic repository = _repositories[SelectedTable.ToString()];
-                        var entity = repository.CreateInstance(values);
-                        repository.Add(entity);
 
-                        Console.WriteLine("Successfully added entity to repository");
-                    }
-                    catch (Exception ex)
-                    {
-                        Console.WriteLine($"Error adding entity: {ex.Message}");
+                            dynamic repository = _repositories[SelectedTable.ToString()];
+                            var entity = repository.CreateInstance();
+                            repository.Add(entity);
+
+                            Console.WriteLine("Successfully added entity to repository");
                     }
                 }
             }

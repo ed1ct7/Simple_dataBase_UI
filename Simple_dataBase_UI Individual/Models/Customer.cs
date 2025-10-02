@@ -13,7 +13,7 @@ namespace Simple_dataBase_UI_Individual.Models
 //      Телефон).
     public class Customer
     {
-        Customer() { }
+        public Customer() { }
         public Customer(int id, string Full_Name, string Address, string Phone) {
             this.Id = id;
             this.Full_Name = Full_Name;

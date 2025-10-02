@@ -19,7 +19,7 @@ namespace Simple_dataBase_UI_Individual.Data.Repositories
 {
     public class ComponentTypeRepository : BaseRepository<ComponentType>
     {
-        public ComponentTypeRepository(string dbFilePath) : base(dbFilePath) { }
+        public ComponentTypeRepository(string dbFilePath) { }
 
         public void Add(ComponentType entity)
         {
