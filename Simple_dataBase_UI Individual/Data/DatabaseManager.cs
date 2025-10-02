@@ -174,7 +174,7 @@ namespace Simple_dataBase_UI_Individual.Data
                     }
 
                     dbState = State.Connected;
-                    MessageBox.Show("База данных успешно создана!");
+                    //MessageBox.Show("База данных успешно создана!");
                 }
                 catch (SQLiteException ex)
                 {

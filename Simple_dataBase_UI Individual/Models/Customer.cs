@@ -11,7 +11,7 @@ namespace Simple_dataBase_UI_Individual.Models
 //      ФИО,
 //      Адрес,
 //      Телефон).
-    public class Сustomer
+    public class Customer
     {
         public int Id { get; set; }
         public string Full_Name { get; set; }

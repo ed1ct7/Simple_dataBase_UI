@@ -59,7 +59,7 @@ namespace Simple_dataBase_UI_Individual.ViewModels
                 { "Position", new PositionRepository("testdb")},
                 { "Service", new ServiceRepository("testdb")},
                 { "Сomponent", new СomponentRepository("testdb")},
-                { "Сustomer", new СustomerRepository("testdb")}
+                { "Customer", new CustomerRepository("testdb")}
                 };
 
             SelectionTableCommand = new RelayCommand(SelectionTable);

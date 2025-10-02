@@ -16,13 +16,13 @@ using System.Windows;
 
 namespace Simple_dataBase_UI_Individual.Data.Repositories
 {
-    public class СustomerRepository : BaseRepository<Сustomer>
+    public class CustomerRepository : BaseRepository<Customer>
     {
-        public СustomerRepository(string dbFilePath) : base(dbFilePath)
+        public CustomerRepository(string dbFilePath) : base(dbFilePath)
         {
 
         }
-        public void Add(Сustomer entity)
+        public void Add(Customer entity)
         {
             try
             {
