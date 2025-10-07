@@ -25,7 +25,7 @@ namespace Simple_dataBase_UI_Individual.Data.Repositories
         {
             try
             {
-                DatabaseManager.m_sqlCmd.CommandText = "INSERT INTO component_type('id', 'name', 'description')" +
+                DatabaseManager.m_sqlCmd.CommandText = "INSERT INTO ComponentType('id', 'name', 'description')" +
                     "values('"
                     + entity.Id + "','"
                     + entity.Name + "','" 

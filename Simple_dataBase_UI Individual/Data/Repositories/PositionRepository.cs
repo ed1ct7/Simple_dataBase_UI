@@ -28,7 +28,7 @@ namespace Simple_dataBase_UI_Individual.Data.Repositories
         {
             try
             {
-                DatabaseManager.m_sqlCmd.CommandText = "INSERT INTO positions('id', 'name', 'salary', 'duties', 'requirements')" +
+                DatabaseManager.m_sqlCmd.CommandText = "INSERT INTO Position('id', 'name', 'salary', 'duties', 'requirements')" +
                     "values('"
                     + entity.Id + "','"
                     + entity.Name + "','"

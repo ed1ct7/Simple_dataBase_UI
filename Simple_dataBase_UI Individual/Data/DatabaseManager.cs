@@ -92,7 +92,7 @@ namespace Simple_dataBase_UI_Individual.Data
                 string[] createTableCommands = {
                     // Таблица Должности
                     @"CREATE TABLE IF NOT EXISTS Position (
-                        id INTEGER PRIMARY KEY AUTOINCREMENT, 
+                        id INTEGER PRIMARY KEY, 
                         name TEXT, 
                         salary DECIMAL, 
                         duties TEXT, 
@@ -100,7 +100,7 @@ namespace Simple_dataBase_UI_Individual.Data
                     )",
                     // Таблица Сотрудники
                     @"CREATE TABLE IF NOT EXISTS Employee (
-                        id INTEGER PRIMARY KEY AUTOINCREMENT, 
+                        id INTEGER PRIMARY KEY, 
                         full_name TEXT, 
                         age INT, 
                         gender BOOL, 
@@ -118,7 +118,7 @@ namespace Simple_dataBase_UI_Individual.Data
                     )",        
                     // Таблица Комплектующие
                     @"CREATE TABLE IF NOT EXISTS Component (
-                        id INTEGER PRIMARY KEY AUTOINCREMENT, 
+                        id INTEGER PRIMARY KEY, 
                         type_id INTEGER,
                         brand TEXT, 
                         manufacturer_company TEXT, 
@@ -132,21 +132,21 @@ namespace Simple_dataBase_UI_Individual.Data
                     )",
                     // Таблица Клиенты
                     @"CREATE TABLE IF NOT EXISTS Customer (
-                        id INTEGER PRIMARY KEY AUTOINCREMENT, 
+                        id INTEGER PRIMARY KEY, 
                         full_name TEXT,
                         address TEXT,
                         phone TEXT
                     )",
                     // Таблица Услуги
                     @"CREATE TABLE IF NOT EXISTS Service (
-                        id INTEGER PRIMARY KEY AUTOINCREMENT, 
+                        id INTEGER PRIMARY KEY, 
                         name TEXT,
                         description TEXT,
                         price DECIMAL
                     )",
                     // Таблица Заказы
                     @"CREATE TABLE IF NOT EXISTS [Order] (
-                        id INTEGER PRIMARY KEY AUTOINCREMENT,
+                        id INTEGER PRIMARY KEY,
                         order_date TEXT,
                         completion_date TEXT,
                         customer_id INTEGER,

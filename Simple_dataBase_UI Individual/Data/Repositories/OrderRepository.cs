@@ -38,7 +38,7 @@ namespace Simple_dataBase_UI_Individual.Data.Repositories
         {
             try
             {
-                DatabaseManager.m_sqlCmd.CommandText = "INSERT INTO orders('id', 'order_date', " +
+                DatabaseManager.m_sqlCmd.CommandText = "INSERT INTO Order('id', 'order_date', " +
                     "'completion_date', 'customer_id', 'component1_id', 'component2_id', " +
                     "'component3_id', 'prepayment', 'is_paid', 'is_completed', 'total_amount', " +
                     "'total_warranty', 'service1_id', 'service2_id', 'service3_id', 'employee_id')" +

@@ -35,7 +35,7 @@ namespace Simple_dataBase_UI_Individual.Data.Repositories
             try
             {
                 DatabaseManager.m_sqlCmd.CommandText = "INSERT INTO " +
-                    "components('id', 'type_id', 'brand', " +
+                    "Component('id', 'type_id', 'brand', " +
                     "'manufacturer_company', 'manufacturer_country', " +
                     "'release_date', 'specifications', 'warranty', " +
                     "'description', 'price')" +
