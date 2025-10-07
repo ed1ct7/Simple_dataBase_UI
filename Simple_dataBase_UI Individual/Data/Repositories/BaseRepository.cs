@@ -14,29 +14,13 @@ namespace Simple_dataBase_UI_Individual.Data.Repositories
     public abstract class BaseRepository<T> : IBaseRepository<T> where T : class
     {
         protected readonly string tableName;
-
         public BaseRepository()
         {
             this.tableName = typeof(T).Name;
         }
-
         public T CreateInstance()
         {
             return Activator.CreateInstance<T>();
-        }
-
-        // Добавьте этот виртуальный метод
-        public virtual T CreateInstanceFromDataRow(DataRow row)
-        {
-            throw new NotImplementedException($"Method CreateInstanceFromDataRow must be implemented in {GetType().Name}");
-        }
-        public virtual void Add(T entity)
-        {
-            throw new NotImplementedException();
-        }
-        public virtual void Delete(int id)
-        {
-            throw new NotImplementedException();
         }
         public virtual DataTable GetAll()
         {
@@ -57,17 +41,12 @@ namespace Simple_dataBase_UI_Individual.Data.Repositories
             }
             return dataTable;
         }
-        public virtual T GetById(int id)
-        {
-            throw new NotImplementedException();
-        }
-        public virtual void Save()
-        {
-            throw new NotImplementedException();
-        }
-        public virtual void Update(T entity)
-        {
-            throw new NotImplementedException();
-        }
+        // Добавьте этот виртуальный метод
+        public virtual T CreateInstanceFromDataRow(DataRow row) { throw new NotImplementedException(); }
+        public virtual void Add(T entity){throw new NotImplementedException();}
+        public virtual void Delete(int id) { throw new NotImplementedException(); }
+        public virtual T GetById(int id) { throw new NotImplementedException(); }
+        public virtual void Save() { throw new NotImplementedException(); }
+        public virtual void Update(T entity) { throw new NotImplementedException(); }
     }
 }

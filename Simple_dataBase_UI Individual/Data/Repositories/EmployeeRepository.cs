@@ -22,11 +22,7 @@ namespace Simple_dataBase_UI_Individual.Data.Repositories
 {
     public class EmployeeRepository : BaseRepository<Employee>
     {
-        public EmployeeRepository(string dbFilePath)
-        {
-
-        }
-
+        public EmployeeRepository(string dbFilePath){}
         public void Add(Employee entity)
         {
             try
@@ -49,22 +45,6 @@ namespace Simple_dataBase_UI_Individual.Data.Repositories
                 MessageBox.Show("Error: " + ex.Message);
             }
         }
-
-        public void Delete(int id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Employee GetById(int id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Save()
-        {
-            throw new NotImplementedException();
-        }
-
         public void Update(Employee entity)
         {
             throw new NotImplementedException();

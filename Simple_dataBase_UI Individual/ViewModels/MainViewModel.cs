@@ -108,8 +108,6 @@ namespace Simple_dataBase_UI_Individual.ViewModels
             {
                 Console.WriteLine($"Row state: {dataRow.RowState}");
                 Console.WriteLine($"ID value: {dataRow["id"]} (Type: {dataRow["id"]?.GetType()})");
-
-                // Определяем, новая ли это строка
                 bool isNewRow = dataRow.RowState == DataRowState.Added ||
                                dataRow.RowState == DataRowState.Detached ||
                                dataRow.IsNull("id") ||
@@ -117,29 +115,19 @@ namespace Simple_dataBase_UI_Individual.ViewModels
                                Convert.ToInt32(dataRow["id"]) == 0;
 
                 Console.WriteLine($"Is new row: {isNewRow}");
-
                 dynamic repository = _repositories[SelectedTable.ToString()];
-
-                // Создаем сущность из DataRow
                 var entity = repository.CreateInstanceFromDataRow(dataRow);
 
                 if (isNewRow)
                 {
-                    // Для новой строки вызываем Add
                     repository.Add(entity);
-                    Console.WriteLine("Successfully added new entity to repository");
-
-                    // После добавления обновляем ID в DataRow
                     dataRow["id"] = entity.Id;
                 }
                 else
                 {
-                    // Для существующей строки вызываем Update
                     repository.Update(entity);
-                    Console.WriteLine("Successfully updated entity in repository");
                 }
 
-                // Обновляем отображение данных с небольшой задержкой
                 System.Windows.Application.Current.Dispatcher.BeginInvoke(new Action(() =>
                 {
                     RefreshDataTable(repository);
@@ -158,7 +146,6 @@ namespace Simple_dataBase_UI_Individual.ViewModels
             {
                 var newDataTable = repository.GetAll();
                 DataTableC = newDataTable;
-                Console.WriteLine("Data table refreshed successfully");
             }
             catch (Exception ex)
             {

@@ -64,6 +64,6 @@ namespace Simple_dataBase_UI_Individual.Models
         public string Specifications { get; set; }
         public string Warranty { get; set; }
         public string Description { get; set; }
-        public int Price { get; set; }
+        public decimal Price { get; set; }
     }
 }
