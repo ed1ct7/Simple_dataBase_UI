@@ -29,7 +29,7 @@ namespace Simple_dataBase_UI_Individual.Models
         public Order(int Id, string Order_Date, string Completion_Date,
             int Customer_Id, int Component1_Id, int Component2_Id,
             int Component3_Id, int Prepayment, bool Is_Paid,
-            bool Is_Completed, decimal Total_Amount,string Total_Warranty,
+            bool Is_Completed, decimal Total_Amount,int Total_Warranty,
             int Service1_Id, int Service2_Id, int Service3_Id, int Employee_Id
             ) {
             this.Id = Id;
@@ -65,7 +65,7 @@ namespace Simple_dataBase_UI_Individual.Models
             this.Is_Paid = Convert.ToBoolean(array[8]);
             this.Is_Completed = Convert.ToBoolean(array[9]);
             this.Total_Amount = Convert.ToDecimal(array[10]);
-            this.Total_Warranty = array[11]?.ToString() ?? string.Empty;
+            this.Total_Warranty = Convert.ToInt32(array[11]);
             this.Service1_Id = Convert.ToInt32(array[12]);
             this.Service2_Id = Convert.ToInt32(array[13]);
             this.Service3_Id = Convert.ToInt32(array[14]);
@@ -82,7 +82,7 @@ namespace Simple_dataBase_UI_Individual.Models
         public bool Is_Paid { get; set; }
         public bool Is_Completed { get; set; }
         public decimal Total_Amount { get; set; }
-        public string Total_Warranty { get; set; }
+        public int Total_Warranty { get; set; }
         public int Service1_Id { get; set; }
         public int Service2_Id { get; set; }
         public int Service3_Id { get; set; }

@@ -99,15 +99,15 @@ using System.Data.SQLite;
                     if (entity.Id != 0)
                     {
                         command.CommandText = @"
-                    INSERT INTO Service (id, name, description, price)
-                    VALUES (@id, @name, @description, @price)";
+                            INSERT INTO Service (id, name, description, price)
+                            VALUES (@id, @name, @description, @price)";
                         command.Parameters.AddWithValue("@id", entity.Id);
                     }
                     else
                     {
                         command.CommandText = @"
-                    INSERT INTO Service (name, description, price)
-                    VALUES (@name, @description, @price)";
+                            INSERT INTO Service (name, description, price)
+                            VALUES (@name, @description, @price)";
                     }
 
                     command.Parameters.AddWithValue("@name", entity.Name ?? "");

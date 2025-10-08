@@ -41,7 +41,6 @@ namespace Simple_dataBase_UI_Individual.Data.Repositories
             }
             return dataTable;
         }
-        // Добавьте этот виртуальный метод
         public virtual T CreateInstanceFromDataRow(DataRow row) { throw new NotImplementedException(); }
         public virtual void Add(T entity){throw new NotImplementedException();}
         public virtual void Delete(int id) { throw new NotImplementedException(); }

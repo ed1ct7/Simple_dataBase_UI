@@ -125,7 +125,7 @@ namespace Simple_dataBase_UI_Individual.Data
                         manufacturer_country TEXT, 
                         release_date TEXT,
                         specifications TEXT, 
-                        warranty TEXT, 
+                        warranty INT, 
                         description TEXT, 
                         price DECIMAL,
                         FOREIGN KEY (type_id) REFERENCES ComponentType(id)

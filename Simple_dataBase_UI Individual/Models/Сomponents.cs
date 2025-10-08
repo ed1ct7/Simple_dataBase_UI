@@ -24,7 +24,7 @@ namespace Simple_dataBase_UI_Individual.Models
         public Component(int Id, int Type_Id,
             string Brand, string Manufacturer_Company,
             string Manufacturer_Country, string ReleaseDate,
-            string Specifications, string Warranty,
+            string Specifications, int Warranty,
             string Description, int Price
             ) { 
             this.Id = Id;
@@ -51,9 +51,9 @@ namespace Simple_dataBase_UI_Individual.Models
             this.Manufacturer_Country = array[4]?.ToString() ?? string.Empty;
             this.ReleaseDate = array[5]?.ToString() ?? string.Empty;
             this.Specifications = array[6]?.ToString() ?? string.Empty;
-            this.Warranty = array[7]?.ToString() ?? string.Empty;
+            this.Warranty = Convert.ToInt32(array[7]);
             this.Description = array[8]?.ToString() ?? string.Empty;
-            this.Price = Convert.ToInt32(array[9]);
+            this.Price = Convert.ToDecimal(array[9]);
         }
         public int Id { get; set; }
         public int Type_Id { get; set; }
@@ -62,7 +62,7 @@ namespace Simple_dataBase_UI_Individual.Models
         public string Manufacturer_Country { get; set; }
         public string ReleaseDate { get; set; }
         public string Specifications { get; set; }
-        public string Warranty { get; set; }
+        public int Warranty { get; set; }
         public string Description { get; set; }
         public decimal Price { get; set; }
     }
