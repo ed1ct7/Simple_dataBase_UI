@@ -11,8 +11,13 @@
     <Window.DataContext>
         <vm:MainViewModel/>
     </Window.DataContext>
+    <Border
+        Background="DarkSlateGray"
+        >
+        
     <Grid Grid.RowSpan="1" Grid.Row="1" Grid.ColumnSpan="2">
         <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
             <RowDefinition Height="auto"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
@@ -21,8 +26,21 @@
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
 
-        <ListBox ItemsSource="{Binding Tables}" 
-                 SelectedItem="{Binding SelectedTable}">
+        <Label  Content="Tables"
+                Style="{StaticResource S_Header}"
+                ></Label>
+        <Label  Content="Data"
+                Grid.Column="1"
+                Style="{StaticResource S_Header}"
+                ></Label>
+        
+        <ListBox Grid.Row="1"
+                 ItemsSource="{Binding Tables}" 
+                 SelectedItem="{Binding SelectedTable}"
+                 Background="SlateGray"
+                 Foreground="White"
+                 FontWeight="DemiBold"
+                 >
             <i:Interaction.Triggers>
                 <i:EventTrigger EventName="SelectionChanged">
                     <i:InvokeCommandAction Command="{Binding SelectionTableCommand}"></i:InvokeCommandAction>
@@ -30,8 +48,10 @@
             </i:Interaction.Triggers>
         </ListBox>
 
-        <DataGrid Grid.Column="1" Grid.RowSpan="2" 
-                  ItemsSource="{Binding DataTableC}"      
+        <DataGrid Grid.Column="1" Grid.RowSpan="2" Grid.Row="1"
+                  ItemsSource="{Binding DataTableC}"    
+                  Background="SlateGray"
+                  Foreground="Black"
                   >
             <i:Interaction.Triggers>
                 <i:EventTrigger EventName="CellEditEnding">
@@ -44,5 +64,6 @@
                 </i:EventTrigger>
             </i:Interaction.Triggers>
         </DataGrid>
-    </Grid>
+        </Grid>
+    </Border>
 </Window>

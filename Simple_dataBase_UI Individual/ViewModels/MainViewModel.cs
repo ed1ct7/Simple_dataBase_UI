@@ -104,30 +104,34 @@ namespace Simple_dataBase_UI_Individual.ViewModels
         }
         private void ProcessRowEdit(DataRow dataRow)
         {
-            bool isNewRow = dataRow.RowState == DataRowState.Added ||
-                            dataRow.RowState == DataRowState.Detached ||
-                            dataRow.IsNull("id") ||
-                            dataRow["id"] == DBNull.Value ||
-                            Convert.ToInt32(dataRow["id"]) == 0;
-
-            dynamic repository = _repositories[SelectedTable.ToString()];
-            var entity = repository.CreateInstanceFromDataRow(dataRow);
-
-            if (isNewRow)
+            try
             {
-                repository.Add(entity);
-                dataRow["id"] = entity.Id;
+                bool isNewRow = dataRow.RowState == DataRowState.Added ||
+                                dataRow.RowState == DataRowState.Detached ||
+                                dataRow.IsNull("id") ||
+                                dataRow["id"] == DBNull.Value ||
+                                Convert.ToInt32(dataRow["id"]) == 0;
+
+                dynamic repository = _repositories[SelectedTable.ToString()];
+                var entity = repository.CreateInstanceFromDataRow(dataRow);
+
+                if (isNewRow)
+                {
+                    repository.Add(entity);
+                    dataRow["id"] = entity.Id;
+                }
+                else
+                {
+                    repository.Update(entity);
+                }
+                Dispatcher dispatcher = System.Windows.Application.Current.Dispatcher;
+                Action myAction = delegate ()
+                {
+                    RefreshDataTable(repository);
+                };
+                dispatcher.BeginInvoke(myAction, DispatcherPriority.ApplicationIdle);
             }
-            else
-            {
-                repository.Update(entity);
-            }
-            Dispatcher dispatcher = System.Windows.Application.Current.Dispatcher;
-            Action myAction = delegate () 
-            { 
-                RefreshDataTable(repository); 
-            };
-            dispatcher.BeginInvoke(myAction, DispatcherPriority.ApplicationIdle);
+            catch (Exception ex) { }
         }
 
         private void RefreshDataTable(dynamic repository)

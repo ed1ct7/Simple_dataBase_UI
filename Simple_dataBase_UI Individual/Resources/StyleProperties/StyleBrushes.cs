@@ -9,11 +9,11 @@ namespace Simple_dataBase_UI_Individual.Resources.StyleProperties
 {
     public class StyleBrushes
     {
-        public static Brush BG_Brush = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#3f284d")); //
-        public static Brush FG_Brush = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#3f284d")); //
-        public static Brush BG_Brush_Hovered = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#3f284d")); //
-        public static Brush FG_Brush_Hovered = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#3f284d")); //
-        public static Brush BG_Brush_Clicked = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#3f284d")); //
-        public static Brush FG_Brush_Clicked = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#3f284d")); //
+        public static Brush BGB_Default = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#3f284d")); //
+        public static Brush FGB_Default = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FFFFFF")); //
+        public static Brush BGB_Hovered = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#3f284d")); //
+        public static Brush FGB_Hovered = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#3f284d")); //
+        public static Brush BGB_Clicked = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#3f284d")); //
+        public static Brush FGB_Clicked = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#3f284d")); //
     }
 }
