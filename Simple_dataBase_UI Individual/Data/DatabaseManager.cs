@@ -211,29 +211,6 @@ namespace Simple_dataBase_UI_Individual.Data
             }
         }
 
-        private void GetTable()
-        {
-            try
-            {
-                DataSet dataSet = new DataSet();
-                string sqlQuery;
-                sqlQuery = "SELECT * FROM Catalog ";
-                SQLiteDataAdapter adapter = new SQLiteDataAdapter(sqlQuery, m_dbConn);
-                adapter.Fill(dataSet);
-                //dbView.ItemsSource = dataSet.Tables[0].DefaultView;
-            }
-            catch (SQLiteException ex)
-            {
-                MessageBox.Show("Error: " + ex.Message);
-            }
-        }
-
-        public void DeleteTable()
-        {
-            // Implementation for deleting tables
-        }
-
-        // Add proper disposal
         public void Dispose()
         {
             m_sqlCmd?.Dispose();

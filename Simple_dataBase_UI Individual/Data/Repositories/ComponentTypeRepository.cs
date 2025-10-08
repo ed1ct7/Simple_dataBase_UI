@@ -28,17 +28,11 @@ namespace Simple_dataBase_UI_Individual.Data.Repositories
             {
                 var componentType = new ComponentType();
 
-                if (!row.IsNull("id") && row["id"] != DBNull.Value)
-                {
-                    componentType.Id = Convert.ToInt32(row["id"]);
-                }
-                else
-                {
-                    componentType.Id = 0;
-                }
+                if (!row.IsNull("id") && row["id"] != DBNull.Value) { componentType.Id = Convert.ToInt32(row["id"]); }
+                else { componentType.Id = 0; }
 
                 componentType.Name = row.IsNull("name") ? "" : row["name"].ToString();
-                componentType.Description = row.IsNull("description") ? "" : row["description"].ToString();
+                componentType.Description = row.IsNull("de  scription") ? "" : row["description"].ToString();
 
                 Console.WriteLine($"Created ComponentType: ID={componentType.Id}, Name='{componentType.Name}'");
 

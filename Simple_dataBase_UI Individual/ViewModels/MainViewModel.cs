@@ -13,6 +13,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Threading;
 
 namespace Simple_dataBase_UI_Individual.ViewModels
 {
@@ -36,7 +37,6 @@ namespace Simple_dataBase_UI_Individual.ViewModels
                 OnPropertyChanged();
             }
         }
-
         public ObservableCollection<string> Tables { get; set; }
 
         private ObservableCollection<object> _items;
@@ -92,77 +92,53 @@ namespace Simple_dataBase_UI_Individual.ViewModels
                 {
                     if (e.Row.DataContext is DataRowView dataRowView)
                     {
-                        // Отложим выполнение до завершения редактирования
-                        System.Windows.Application.Current.Dispatcher.BeginInvoke(new Action(() =>
+                        Dispatcher dispatcher = System.Windows.Application.Current.Dispatcher;
+                        Action myAction = delegate ()
                         {
                             ProcessRowEdit(dataRowView.Row);
-                        }), System.Windows.Threading.DispatcherPriority.Background);
+                        };
+                        dispatcher.BeginInvoke(myAction, DispatcherPriority.Background);
                     }
                 }
             }
         }
-
         private void ProcessRowEdit(DataRow dataRow)
         {
-            try
+            bool isNewRow = dataRow.RowState == DataRowState.Added ||
+                            dataRow.RowState == DataRowState.Detached ||
+                            dataRow.IsNull("id") ||
+                            dataRow["id"] == DBNull.Value ||
+                            Convert.ToInt32(dataRow["id"]) == 0;
+
+            dynamic repository = _repositories[SelectedTable.ToString()];
+            var entity = repository.CreateInstanceFromDataRow(dataRow);
+
+            if (isNewRow)
             {
-                Console.WriteLine($"Row state: {dataRow.RowState}");
-                Console.WriteLine($"ID value: {dataRow["id"]} (Type: {dataRow["id"]?.GetType()})");
-                bool isNewRow = dataRow.RowState == DataRowState.Added ||
-                               dataRow.RowState == DataRowState.Detached ||
-                               dataRow.IsNull("id") ||
-                               dataRow["id"] == DBNull.Value ||
-                               Convert.ToInt32(dataRow["id"]) == 0;
-
-                Console.WriteLine($"Is new row: {isNewRow}");
-                dynamic repository = _repositories[SelectedTable.ToString()];
-                var entity = repository.CreateInstanceFromDataRow(dataRow);
-
-                if (isNewRow)
-                {
-                    repository.Add(entity);
-                    dataRow["id"] = entity.Id;
-                }
-                else
-                {
-                    repository.Update(entity);
-                }
-
-                System.Windows.Application.Current.Dispatcher.BeginInvoke(new Action(() =>
-                {
-                    RefreshDataTable(repository);
-                }), System.Windows.Threading.DispatcherPriority.ApplicationIdle);
+                repository.Add(entity);
+                dataRow["id"] = entity.Id;
             }
-            catch (Exception ex)
+            else
             {
-                Console.WriteLine($"Error processing entity: {ex.Message}");
-                Console.WriteLine($"Stack trace: {ex.StackTrace}");
+                repository.Update(entity);
             }
+            Dispatcher dispatcher = System.Windows.Application.Current.Dispatcher;
+            Action myAction = delegate () 
+            { 
+                RefreshDataTable(repository); 
+            };
+            dispatcher.BeginInvoke(myAction, DispatcherPriority.ApplicationIdle);
         }
 
         private void RefreshDataTable(dynamic repository)
         {
-            try
-            {
-                var newDataTable = repository.GetAll();
-                DataTableC = newDataTable;
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Error refreshing data table: {ex.Message}");
-            }
+            var newDataTable = repository.GetAll();
+            DataTableC = newDataTable;
         }
         private void SelectionTable(object parameter)
-        {
-            try
-            {
-                dynamic repository = _repositories[SelectedTable.ToString()];
-                RefreshDataTable(repository);
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Error selecting table: {ex.Message}");
-            }
+        {   
+            dynamic repository = _repositories[SelectedTable.ToString()];
+            RefreshDataTable(repository);
         }
 
         public event PropertyChangedEventHandler? PropertyChanged;
