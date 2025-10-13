@@ -107,8 +107,6 @@ namespace Simple_dataBase_UI_Individual.Data.Repositories
                     component.Price = 0;
                 }
 
-                Console.WriteLine($"Created Component: ID={component.Id}, Brand='{component.Brand}', Price={component.Price}");
-
                 return component;
             }
             catch (Exception ex)
@@ -191,7 +189,6 @@ namespace Simple_dataBase_UI_Individual.Data.Repositories
                     command.Parameters.AddWithValue("@price", entity.Price);
 
                     int rowsAffected = command.ExecuteNonQuery();
-                    Console.WriteLine($"Rows affected: {rowsAffected}");
 
                     // Если ID не был указан, получаем сгенерированный ID
                     if (entity.Id == 0)
@@ -199,8 +196,6 @@ namespace Simple_dataBase_UI_Individual.Data.Repositories
                         command.CommandText = "SELECT last_insert_rowid()";
                         entity.Id = Convert.ToInt32(command.ExecuteScalar());
                     }
-
-                    Console.WriteLine($"Component added with ID: {entity.Id}");
                 }
             }
             catch (SQLiteException ex)
@@ -247,7 +242,6 @@ namespace Simple_dataBase_UI_Individual.Data.Repositories
                     command.Parameters.AddWithValue("@id", entity.Id);
 
                     int rowsAffected = command.ExecuteNonQuery();
-                    Console.WriteLine($"Rows updated: {rowsAffected}");
                 }
             }
             catch (SQLiteException ex)

@@ -34,8 +34,6 @@ namespace Simple_dataBase_UI_Individual.Data.Repositories
                 componentType.Name = row.IsNull("name") ? "" : row["name"].ToString();
                 componentType.Description = row.IsNull("de  scription") ? "" : row["description"].ToString();
 
-                Console.WriteLine($"Created ComponentType: ID={componentType.Id}, Name='{componentType.Name}'");
-
                 return componentType;
             }
             catch (Exception ex)
@@ -104,8 +102,6 @@ namespace Simple_dataBase_UI_Individual.Data.Repositories
                         command.CommandText = "SELECT last_insert_rowid()";
                         entity.Id = Convert.ToInt32(command.ExecuteScalar());
                     }
-
-                    Console.WriteLine($"ComponentType added with ID: {entity.Id}");
                 }
             }
             catch (SQLiteException ex)

@@ -40,8 +40,6 @@ namespace Simple_dataBase_UI_Individual.Data.Repositories
                 customer.Address = row.IsNull("address") ? "" : row["address"].ToString();
                 customer.Phone = row.IsNull("phone") ? "" : row["phone"].ToString();
 
-                Console.WriteLine($"Created Customer: ID={customer.Id}, Name='{customer.Full_Name}', Phone='{customer.Phone}'");
-
                 return customer;
             }
             catch (Exception ex)
@@ -103,7 +101,6 @@ namespace Simple_dataBase_UI_Individual.Data.Repositories
                     command.Parameters.AddWithValue("@phone", entity.Phone ?? "");
 
                     int rowsAffected = command.ExecuteNonQuery();
-                    Console.WriteLine($"Rows affected: {rowsAffected}");
 
                     // Если ID не был указан, получаем сгенерированный ID
                     if (entity.Id == 0)
@@ -111,8 +108,6 @@ namespace Simple_dataBase_UI_Individual.Data.Repositories
                         command.CommandText = "SELECT last_insert_rowid()";
                         entity.Id = Convert.ToInt32(command.ExecuteScalar());
                     }
-
-                    Console.WriteLine($"Customer added with ID: {entity.Id}");
                 }
             }
             catch (SQLiteException ex)

@@ -88,7 +88,6 @@
                 command.Parameters.AddWithValue("@price", entity.Price);
 
                 int rowsAffected = command.ExecuteNonQuery();
-                Console.WriteLine($"Rows affected: {rowsAffected}");
 
                 // Если ID не был указан, получаем сгенерированный ID
                 if (entity.Id == 0)
@@ -96,8 +95,6 @@
                     command.CommandText = "SELECT last_insert_rowid()";
                     entity.Id = Convert.ToInt32(command.ExecuteScalar());
                 }
-
-                Console.WriteLine($"Service added with ID: {entity.Id}");
             }
         }
         public override void Update(Service entity) {

@@ -57,8 +57,6 @@ namespace Simple_dataBase_UI_Individual.Data.Repositories
                     position.Salary = 0;
                 }
 
-                Console.WriteLine($"Created Position: ID={position.Id}, Name='{position.Name}', Salary={position.Salary}");
-
                 return position;
             }
             catch (Exception ex)
@@ -129,8 +127,6 @@ namespace Simple_dataBase_UI_Individual.Data.Repositories
                         command.CommandText = "SELECT last_insert_rowid()";
                         entity.Id = Convert.ToInt32(command.ExecuteScalar());
                     }
-
-                    Console.WriteLine($"Position added with ID: {entity.Id}");
                 }
             }
             catch (SQLiteException ex)

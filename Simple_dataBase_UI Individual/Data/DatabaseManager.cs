@@ -112,7 +112,7 @@ namespace Simple_dataBase_UI_Individual.Data
                     )",
                     // Таблица Категории комплектующих
                     @"CREATE TABLE IF NOT EXISTS ComponentType (
-                        id INTEGER PRIMARY KEY AUTOINCREMENT, 
+                        id INTEGER PRIMARY KEY, 
                         name TEXT, 
                         description TEXT
                     )",        

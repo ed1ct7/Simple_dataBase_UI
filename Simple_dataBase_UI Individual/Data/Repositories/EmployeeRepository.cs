@@ -72,8 +72,6 @@ namespace Simple_dataBase_UI_Individual.Data.Repositories
                     employee.Position_Id = 0;
                 }
 
-                Console.WriteLine($"Created Employee: ID={employee.Id}, Name='{employee.Full_Name}', Position={employee.Position_Id}");
-
                 return employee;
             }
             catch (Exception ex)
@@ -139,7 +137,6 @@ namespace Simple_dataBase_UI_Individual.Data.Repositories
                     command.Parameters.AddWithValue("@position_id", entity.Position_Id);
 
                     int rowsAffected = command.ExecuteNonQuery();
-                    Console.WriteLine($"Rows affected: {rowsAffected}");
 
                     // Если ID не был указан, получаем сгенерированный ID
                     if (entity.Id == 0)
@@ -147,8 +144,6 @@ namespace Simple_dataBase_UI_Individual.Data.Repositories
                         command.CommandText = "SELECT last_insert_rowid()";
                         entity.Id = Convert.ToInt32(command.ExecuteScalar());
                     }
-
-                    Console.WriteLine($"Employee added with ID: {entity.Id}");
                 }
             }
             catch (SQLiteException ex)

@@ -172,8 +172,6 @@ namespace Simple_dataBase_UI_Individual.Data.Repositories
                     order.Employee_Id = 0;
                 }
 
-                Console.WriteLine($"Created Order: ID={order.Id}, Customer={order.Customer_Id}, Total={order.Total_Amount}");
-
                 return order;
             }
             catch (Exception ex)
@@ -267,8 +265,6 @@ namespace Simple_dataBase_UI_Individual.Data.Repositories
                         command.CommandText = "SELECT last_insert_rowid()";
                         entity.Id = Convert.ToInt32(command.ExecuteScalar());
                     }
-
-                    Console.WriteLine($"Order added with ID: {entity.Id}");
                 }
             }
             catch (SQLiteException ex)
